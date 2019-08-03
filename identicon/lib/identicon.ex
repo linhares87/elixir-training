@@ -21,6 +21,10 @@ defmodule Identicon do
     |> hash_input
   end
 
+
+  @doc """
+  
+  """
   def hash_input(input) do
     :crypto.hash(:md5, input)
     |> :binary.bin_to_list
