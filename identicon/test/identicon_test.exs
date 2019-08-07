@@ -3,6 +3,6 @@ defmodule IdenticonTest do
   doctest Identicon
 
   test "greets the world" do
-    assert Identicon.hello() == :world
+
   end
 end
