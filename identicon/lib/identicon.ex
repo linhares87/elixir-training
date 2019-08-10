@@ -18,6 +18,38 @@ defmodule Identicon do
     |> pick_color
     |> build_grid
     |> filter_odd_squares
+    |> build_pixel_map
+    |> draw_image
+    |> save_image(input)
+  end
+
+  def save_image(image, input) do
+    File.write("#{input}.png", image)
+  end
+
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do #image its not necessary, so don´t need to be passed by parameter
+    image = :egd.create(250, 250)
+    fill = :egd.color(color)
+
+    Enum.each pixel_map, fn({start, stop}) ->
+      :egd.filledRectangle(image, start, stop, fill)
+    end
+
+    :egd.render(image)
+  end
+
+  @spec build_pixel_map(Identicon.Image.t()) :: Identicon.Image.t()
+  def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+    pixel_map = Enum.map grid, fn({_code, index}) ->
+      horizontal = rem(index, 5) * 50
+      vertical = div(index, 5) * 50
+      top_left = {horizontal, vertical}
+      bottom_right = {horizontal + 50, vertical + 50}
+      {top_left, bottom_right}
+    end
+
+    %Identicon.Image {image | pixel_map: pixel_map}
+
   end
 
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
@@ -63,7 +95,7 @@ defmodule Identicon do
 
     %Identicon.Image{hash: [r, g, b | _tail]} = image #pattern matching
 
-    %Identicon.Image{image | color: [r, g, b] }
+    %Identicon.Image{image | color: {r, g, b} }
 
   end
 
@@ -123,7 +155,6 @@ defmodule Identicon do
     |> :binary.bin_to_list
 
     %Identicon.Image{hash: hex} #attributing data to a struct
-
 
   end
 
