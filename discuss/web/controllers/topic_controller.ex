@@ -3,7 +3,8 @@ defmodule Discuss.TopicController do
   alias Discuss.Topic
 
   def index(conn, _params) do
-
+    topics = Repo.all(Topic) #get from databse
+    render(conn, "index.html", topics: topics)
   end
 
 
@@ -18,9 +19,14 @@ defmodule Discuss.TopicController do
     changeset = Topic.changeset(%Topic{}, topic)
 
     case Repo.insert(changeset) do
-      {:ok, post} -> IO.inspect(post)
+      {:ok, _post} ->
+        conn
+        |> put_flash(:info, "Topic Created")
+        |> redirect(to: topic_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_flash(:error, "Error")
+        |> render("new.html", changeset: changeset)
     end
 
   end
