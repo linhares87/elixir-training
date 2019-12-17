@@ -18,9 +18,14 @@
 
     <nav class="light-blue">
       <div class="nav-wrapper container">
-        <a href="/topics/new" class="brand-logo">
+
+         <%= link to: topic_path(@conn, :new), class: "brand-logo" do %>
           Discussions
-        </a>
+        <% end %>
+      
+        <%# <a href="/topics/new" class="brand-logo">
+          Discussions
+        </a> %>
       </div>
     </nav>
 
