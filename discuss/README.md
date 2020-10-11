@@ -19,7 +19,6 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
 
-
 ## Configuring the Container
 
 
@@ -42,3 +41,7 @@ Creating the docker for admin
 ## Other tools
 
 https://github.com/rvoicilas/inotify-tools/wiki
+
+## Data base configuration
+
+The credentials to access the database is in the file \discuss\config
